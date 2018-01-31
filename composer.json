@@ -1,0 +1,26 @@
+{
+    "name": "ApplePay Token Decoder",
+    "description": "ApplePay Token Decoder",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [],
+    "homepage": "https://github.com/PayU/apple-pay",
+    "authors": [
+        {
+            "name": "PayU Romania",
+            "homepage": "https://github.com/PayU"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PayU\\":  "src/"
+        }
+    },
+    "require": {
+        "doctrine/annotations": "^1.4",
+        "doctrine/cache": "^1.6",
+        "php-di/php-di": "^5.4",
+        "spomky-labs/php-aes-gcm": "^1.2",
+        "phpseclib/phpseclib": "^2.0"
+    }
+}
