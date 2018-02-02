@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+         bootstrap="bootstrap.php"
+        >
+    <testsuites>
+        <testsuite name="applepay-test">
+            <directory>tests</directory>
+        </testsuite>
+
+    </testsuites>
+
+    <php>
+        <ini name="memory_limit" value="512M"/>
+    </php>
+
+</phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace PayU\Authorization\ApplePay;
+namespace PayU;
 
 use PayU\Exception\InvalidFormatException;
 
