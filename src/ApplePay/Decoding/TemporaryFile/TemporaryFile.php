@@ -1,6 +1,6 @@
 <?php
 
-namespace PayU\Decoding\TemporaryFile;
+namespace PayU\ApplePay\Decoding\TemporaryFile;
 
 
 class TemporaryFile

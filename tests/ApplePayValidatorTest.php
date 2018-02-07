@@ -2,7 +2,7 @@
 
 namespace PayU;
 
-use PayU\Exception\InvalidFormatException;
+use PayU\ApplePay\Exception\InvalidFormatException;
 
 class ApplePayValidatorTest extends \PHPUnit_Framework_TestCase
 {

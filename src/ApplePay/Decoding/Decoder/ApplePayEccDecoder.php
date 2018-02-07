@@ -1,11 +1,11 @@
 <?php
 
-namespace PayU\Decoding\Decoder;
+namespace PayU\ApplePay\Decoding\Decoder;
 
 use InvalidArgumentException;
-use PayU\Decoding\ApplePayPaymentData;
-use PayU\Decoding\Decoder\Algorithms\Ecc;
-use PayU\Exception\DecodingFailedException;
+use PayU\ApplePay\Decoding\ApplePayPaymentData;
+use PayU\ApplePay\Decoding\Decoder\Algorithms\Ecc;
+use PayU\ApplePay\Exception\DecodingFailedException;
 
 class ApplePayEccDecoder implements ApplePayDecoderInterface
 {

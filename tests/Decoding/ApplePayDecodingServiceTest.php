@@ -1,10 +1,10 @@
 <?php
 
-namespace PayU\Decoding;
+namespace PayU\ApplePay\Decoding;
 
 use Exception;
-use PayU\Decoding\Decoder\ApplePayDecoderFactory;
-use PayU\Decoding\Decoder\ApplePayEccDecoder;
+use PayU\ApplePay\Decoding\Decoder\ApplePayDecoderFactory;
+use PayU\ApplePay\Decoding\Decoder\ApplePayEccDecoder;
 use PHPUnit_Framework_MockObject_MockObject;
 
 class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase

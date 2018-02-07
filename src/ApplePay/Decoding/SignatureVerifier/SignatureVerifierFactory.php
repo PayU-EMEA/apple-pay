@@ -1,35 +1,36 @@
 <?php
 
-namespace PayU\Decoding\SignatureVerifier;
+namespace PayU\ApplePay\Decoding\SignatureVerifier;
 
-use DI\Container;
 use Exception;
+use PayU\ApplePay\Decoding\Asn1Wrapper;
+use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
+use phpseclib\File\ASN1;
 
 class SignatureVerifierFactory
 {
     const ECC = 'EC_v1';
     const RSA = 'rsa';
 
-    /** @var Container */
-    private $container;
-
-    public function __construct(Container $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**
      * @param $version
      * @return mixed|EccSignatureVerifier
      * @throws Exception
-     * @throws \Interop\Container\Exception\ContainerException
-     * @throws \Interop\Container\Exception\NotFoundException
      */
     public function make($version)
     {
         switch ($version) {
             case self::ECC:
-                return $this->container->get(EccSignatureVerifier::class);
+                $asn1 = new ASN1();
+                $asn1Wrapper = new Asn1Wrapper($asn1);
+                $openSslService = new OpenSslService();
+                $eccSignatureVerifier = new EccSignatureVerifier($asn1Wrapper, $openSslService);
+
+                return $eccSignatureVerifier;
             case self::RSA:
                 throw new Exception('Unsupported type ' . $version);
             default:

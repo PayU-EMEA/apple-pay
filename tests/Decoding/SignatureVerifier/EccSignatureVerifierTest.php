@@ -1,10 +1,10 @@
 <?php
 
-namespace PayU\Decoding\SignatureVerifier;
+namespace PayU\ApplePay\Decoding\SignatureVerifier;
 
-use PayU\Decoding\Asn1Wrapper;
-use PayU\Decoding\OpenSSL\OpenSslService;
-use PayU\Decoding\SignatureVerifier\Exception\SignatureException;
+use PayU\ApplePay\Decoding\Asn1Wrapper;
+use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
+use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
 use PHPUnit_Framework_MockObject_MockObject;
 
 class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase

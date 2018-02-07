@@ -1,8 +1,8 @@
 <?php
 
-namespace PayU\Decoding\OpenSSL;
+namespace PayU\ApplePay\Decoding\OpenSSL;
 
-use PayU\Decoding\SignatureVerifier\Exception\SignatureException;
+use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
 
 class OpenSslService
 {

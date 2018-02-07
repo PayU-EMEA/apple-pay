@@ -1,10 +1,10 @@
 <?php
 
-namespace PayU\Decoding;
+namespace PayU\ApplePay\Decoding;
 
-use PayU\Decoding\OpenSSL\OpenSslService;
-use PayU\Decoding\SignatureVerifier\SignatureVerifierFactory;
-use PayU\Decoding\TemporaryFile\TemporaryFileService;
+use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
+use PayU\ApplePay\Decoding\SignatureVerifier\SignatureVerifierFactory;
+use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
 
 class PKCS7SignatureValidator
 {

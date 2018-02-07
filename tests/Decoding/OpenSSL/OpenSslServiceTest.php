@@ -1,9 +1,9 @@
 <?php
 
-namespace PayU\Decoding\OpenSSL;
+namespace PayU\ApplePay\Decoding\OpenSSL;
 
-use PayU\ApplePaySettings;
-use PayU\Decoding\TemporaryFile\TemporaryFile;
+use PayU\ApplePay\ApplePaySettings;
+use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 
 class OpenSslServiceTest extends \PHPUnit_Framework_TestCase
 {

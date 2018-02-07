@@ -1,6 +1,6 @@
 <?php
 
-namespace PayU\Decoding;
+namespace PayU\ApplePay\Decoding;
 
 class PKCS7SignatureValidatorSettings
 {

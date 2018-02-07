@@ -1,9 +1,9 @@
 <?php
 
-namespace PayU\Decoding;
+namespace PayU\ApplePay\Decoding;
 
-use PayU\Decoding\Decoder\ApplePayDecoderFactory;
-use PayU\Exception\DecodingFailedException;
+use PayU\ApplePay\Decoding\Decoder\ApplePayDecoderFactory;
+use PayU\ApplePay\Exception\DecodingFailedException;
 
 class ApplePayDecodingService
 {

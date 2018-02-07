@@ -2,7 +2,7 @@
 
 namespace PayU;
 
-use PayU\Exception\InvalidFormatException;
+use PayU\ApplePay\Exception\InvalidFormatException;
 
 class ApplePayValidator
 {

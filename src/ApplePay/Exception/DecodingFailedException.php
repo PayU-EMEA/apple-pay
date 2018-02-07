@@ -1,6 +1,6 @@
 <?php
 
-namespace PayU\Exception;
+namespace PayU\ApplePay\Exception;
 
 use Exception;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace PayU\Decoding;
+namespace PayU\ApplePay\Decoding;
 
-use PayU\Decoding\Decoder\Algorithms\Ecc;
-use PayU\Decoding\OpenSSL\OpenSslService;
-use PayU\Decoding\TemporaryFile\TemporaryFileService;
+use PayU\ApplePay\Decoding\Decoder\Algorithms\Ecc;
+use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
+use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
 use PHPUnit_Framework_MockObject_MockObject;
 
 class EccTest extends \PHPUnit_Framework_TestCase
