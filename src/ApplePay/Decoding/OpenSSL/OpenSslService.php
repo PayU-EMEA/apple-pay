@@ -63,18 +63,18 @@ class OpenSslService
         $getCertificatesCommand = 'openssl pkcs7 -inform DER -in ' . $certificatePath . ' -print_certs';
 
         $commandStatus = null;
-        $commmandOutput = null;
-        exec($getCertificatesCommand, $commmandOutput, $commandStatus);
+        $commandOutput = null;
+        exec($getCertificatesCommand, $commandOutput, $commandStatus);
 
         if ($commandStatus !== 0) {
-            if(empty($commmandOutput)) {
+            if(empty($commandOutput)) {
                 throw new \RuntimeException('Openssl command failed. Is OpenSsl installed?');
             } else {
-                throw new \RuntimeException(implode(' *** ', $commmandOutput));
+                throw new \RuntimeException(implode(' *** ', $commandOutput));
             }
         }
 
-        return trim(implode(PHP_EOL, $commmandOutput));
+        return trim(implode(PHP_EOL, $commandOutput));
     }
 
     public function getCertificateExtensions($certificate) {

@@ -45,7 +45,7 @@ class Asn1Wrapper
         $content = $this->asn1[0]['content'][1]['content'][0]['content'][3] // certificates tag
                         ['content'][0] // leaf certificate index
                         ['content'][0] // cert_info tag
-                        ['content'][6]; // key tag, all contents, incuding headers
+                        ['content'][6]; // key tag, all contents, including headers
 
         $publicKey = $this->asn1Parser->asn1map($content, [
             'type' => ASN1::TYPE_ANY,

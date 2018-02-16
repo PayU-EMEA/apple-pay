@@ -125,7 +125,7 @@ class PKCS7SignatureValidator
 
         $certificates = $this->openSslService->getCertificatesFromPkcs7($pkcs7TemporaryFile->getPath());
 
-        return explode("\n\n", $certificates); // the response containes 2 certificates; separate them into an array
+        return explode("\n\n", $certificates); // the response contains 2 certificates; separate them into an array
     }
 
 }
