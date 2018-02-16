@@ -28,9 +28,7 @@ class ApplePayDecoderFactory
                 $temporaryFileService = new TemporaryFileService();
                 $openSslService = new OpenSslService();
                 $ecc = new Ecc($temporaryFileService, $openSslService);
-                $applePayEccDecoder = new ApplePayEccDecoder($ecc);
-
-                return $applePayEccDecoder;
+                return new ApplePayEccDecoder($ecc);
             case self::RSA:
                 throw new \RuntimeException('Unsupported type ' . $version);
             default:

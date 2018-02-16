@@ -69,14 +69,19 @@ class OpenSslService
         if ($commandStatus !== 0) {
             if(empty($commandOutput)) {
                 throw new \RuntimeException('Openssl command failed. Is OpenSsl installed?');
-            } else {
-                throw new \RuntimeException(implode(' *** ', $commandOutput));
             }
+
+            throw new \RuntimeException(implode(' *** ', $commandOutput));
         }
 
         return trim(implode(PHP_EOL, $commandOutput));
     }
 
+    /**
+     * @param $certificate
+     * @return mixed
+     * @throws \RuntimeException
+     */
     public function getCertificateExtensions($certificate) {
         $certificateResource = @openssl_x509_read($certificate);
 

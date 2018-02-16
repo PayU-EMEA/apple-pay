@@ -37,6 +37,9 @@ class PKCS7SignatureValidator
      * @param $rootCertificatePath
      * @param $signatureExpirationTime
      * @return bool
+     * @throws \PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException
+     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function validate(array $paymentData, $rootCertificatePath, $signatureExpirationTime)
     {
@@ -88,10 +91,11 @@ class PKCS7SignatureValidator
 
     /**
      * @param array $certificates
+     * @param string $caCertificatePath
      * @return bool
      * @throws \RuntimeException
      */
-    private function validateChainOfTrust($certificates, $caCertificatePath)
+    private function validateChainOfTrust(array $certificates, $caCertificatePath)
     {
         $leafCertificateFile = $this->temporaryFileService->createFile($certificates[0]);
         $intermediateCertificateFile = $this->temporaryFileService->createFile($certificates[1]);

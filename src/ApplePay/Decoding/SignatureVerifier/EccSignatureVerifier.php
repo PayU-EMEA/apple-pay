@@ -18,6 +18,7 @@ class EccSignatureVerifier implements SignatureVerifierInterface
     /**
      * EccSignatureVerifier constructor.
      * @param Asn1Wrapper $asn1Wrapper
+     * @param OpenSslService $openSslService
      */
     public function __construct(Asn1Wrapper $asn1Wrapper, OpenSslService $openSslService)
     {
@@ -36,12 +37,12 @@ class EccSignatureVerifier implements SignatureVerifierInterface
 
         $this->asn1Wrapper->loadFromString(base64_decode($paymentData['signature']));
 
-        if (hash('sha256', $signedData, true) != $this->asn1Wrapper->getDigestMessage()) {
-            throw new SignatureException("Invalid digest");
+        if (hash('sha256', $signedData, true) !== $this->asn1Wrapper->getDigestMessage()) {
+            throw new SignatureException('Invalid digest');
         }
 
         $leafPublicKey = $this->asn1Wrapper->getLeafCertificatePublicKey();
-        $pemFormattedPublicKey = "-----BEGIN PUBLIC KEY-----" . PHP_EOL . chunk_split(base64_encode($leafPublicKey), 64, PHP_EOL) . "-----END PUBLIC KEY-----";
+        $pemFormattedPublicKey = '-----BEGIN PUBLIC KEY-----' . PHP_EOL . chunk_split(base64_encode($leafPublicKey), 64, PHP_EOL) . '-----END PUBLIC KEY-----';
 
         return $this->openSslService->verifySignature($this->asn1Wrapper->getSignedAttributes(), $this->asn1Wrapper->getSignature(), $pemFormattedPublicKey);
     }

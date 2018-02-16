@@ -18,6 +18,7 @@ class ApplePayValidator
     /**
      * @param $input
      * @return bool
+     * @throws \PayU\ApplePay\Exception\InvalidFormatException
      */
     public function validatePaymentDataStructure($input)
     {
@@ -27,11 +28,11 @@ class ApplePayValidator
 
     /**
      * @param $input
-     * @param $format
+     * @param array $format
      * @return bool
      * @throws InvalidFormatException
      */
-    private function isValidStructure($input, $format)
+    private function isValidStructure($input, array $format)
     {
         foreach ($format as $key => $value) {
 

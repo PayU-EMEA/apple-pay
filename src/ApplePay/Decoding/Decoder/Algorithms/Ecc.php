@@ -59,9 +59,7 @@ class Ecc implements AlgorithmInterface
         hash_update ( $hashRes, $sharedSecretBin);
         hash_update ( $hashRes, $kdfInfo);
 
-        $hash = hash_final( $hashRes, true);
-
-        return $hash;
+        return hash_final( $hashRes, true);
     }
 
     /**

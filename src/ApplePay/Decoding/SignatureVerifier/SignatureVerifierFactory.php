@@ -28,13 +28,11 @@ class SignatureVerifierFactory
                 $asn1 = new ASN1();
                 $asn1Wrapper = new Asn1Wrapper($asn1);
                 $openSslService = new OpenSslService();
-                $eccSignatureVerifier = new EccSignatureVerifier($asn1Wrapper, $openSslService);
-
-                return $eccSignatureVerifier;
+                return new EccSignatureVerifier($asn1Wrapper, $openSslService);
             case self::RSA:
-                throw new Exception('Unsupported type ' . $version);
+                throw new \RuntimeException('Unsupported type ' . $version);
             default:
-                throw new Exception('Unknown type ' . $version);
+                throw new \RuntimeException('Unknown type ' . $version);
         }
     }
 }
