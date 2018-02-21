@@ -4,7 +4,7 @@ This library is used to decode tokens for Apple Pay
 
 Install:
 
-TBA
+Run `composer require payu/apple-pay` (not final)
 
 Usage:
 
