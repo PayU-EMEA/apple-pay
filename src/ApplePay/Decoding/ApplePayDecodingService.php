@@ -2,8 +2,10 @@
 
 namespace PayU\ApplePay\Decoding;
 
+use PayU\ApplePay\ApplePayValidator;
 use PayU\ApplePay\Decoding\Decoder\ApplePayDecoderFactory;
 use PayU\ApplePay\Exception\DecodingFailedException;
+use PayU\ApplePay\Exception\InvalidFormatException;
 
 class ApplePayDecodingService
 {
@@ -13,10 +15,14 @@ class ApplePayDecodingService
     /** @var PKCS7SignatureValidator */
     private $PKCS7SignatureValidator;
 
-    public function __construct(ApplePayDecoderFactory $applePayDecoderFactory, PKCS7SignatureValidator $PKCS7SignatureValidator)
+    /** @var ApplePayValidator */
+    private $applePayValidator;
+
+    public function __construct(ApplePayDecoderFactory $applePayDecoderFactory, PKCS7SignatureValidator $PKCS7SignatureValidator, ApplePayValidator $applePayValidator)
     {
         $this->applePayDecoderFactory = $applePayDecoderFactory;
         $this->PKCS7SignatureValidator = $PKCS7SignatureValidator;
+        $this->applePayValidator = $applePayValidator;
     }
 
     /**
@@ -27,9 +33,12 @@ class ApplePayDecodingService
      * @param $tokenSignatureExpirationTime
      * @return ApplePayPaymentData
      * @throws DecodingFailedException
+     * @throws InvalidFormatException
      */
     public function decode($privateKey, $merchantAppleId, array $paymentData, $applePayRootCertificatePath, $tokenSignatureExpirationTime)
     {
+        $this->applePayValidator->validatePaymentDataStructure($paymentData);
+
         try {
             $decoder = $this->applePayDecoderFactory->make($paymentData['version']);
             $this->PKCS7SignatureValidator->validate($paymentData, $applePayRootCertificatePath, $tokenSignatureExpirationTime);

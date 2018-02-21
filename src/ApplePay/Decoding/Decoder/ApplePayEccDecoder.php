@@ -50,7 +50,7 @@ class ApplePayEccDecoder implements ApplePayDecoderInterface
      */
     private function getKdfInfo($merchantAppleId)
     {
-        return chr(0x0D) . self::CYPHER . 'Apple' . hex2bin($merchantAppleId);
+        return chr(0x0D) . self::CYPHER . 'Apple' . hash('sha256', trim($merchantAppleId), true);
     }
 
     /**
@@ -62,7 +62,7 @@ class ApplePayEccDecoder implements ApplePayDecoderInterface
     {
         $decodedData = json_decode($decodedText, true);
 
-        if(null === $decodedData) {
+        if (null === $decodedData) {
             throw new InvalidArgumentException('Invalid decoded text.');
         }
 
@@ -74,7 +74,7 @@ class ApplePayEccDecoder implements ApplePayDecoderInterface
             $decodedData['deviceManufacturerIdentifier'],
             $decodedData['paymentDataType'],
             $decodedData['paymentData']['onlinePaymentCryptogram'],
-            isset($decodedData['paymentData']['eciIndicator'])?$decodedData['paymentData']['eciIndicator']:null,
+            isset($decodedData['paymentData']['eciIndicator']) ? $decodedData['paymentData']['eciIndicator'] : null,
             1
         );
     }
