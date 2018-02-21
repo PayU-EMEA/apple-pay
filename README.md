@@ -8,4 +8,4 @@ TBA
 
 Usage:
 
-See /examples/decode_token.php
+See https://github.com/PayU/apple-pay/blob/master/examples/decode_token.php
