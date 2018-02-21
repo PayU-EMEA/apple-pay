@@ -2,7 +2,7 @@
 
 This library is used to decode tokens for Apple Pay.
 
-It takes a payment data token and returns an ApplePayPaymentData object.
+It takes a payment token data and returns an ApplePayPaymentData object.
 ex:
 ```
 class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
