@@ -1,6 +1,32 @@
 **Apple Pay Token Decoder**
 
-This library is used to decode tokens for Apple Pay
+This library is used to decode tokens for Apple Pay.
+
+It takes a payment data token and returns an ApplePayPaymentData object.
+ex:
+```
+class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
+  private $version =>
+  int(1)
+  private $applicationPrimaryAccountNumber =>
+  string(16) "5204242750270010"
+  private $applicationExpirationDate =>
+  string(6) "190731"
+  private $currencyCode =>
+  string(3) "643"
+  private $transactionAmount =>
+  int(100000)
+  private $deviceManufacturerIdentifier =>
+  string(12) "050110030273"
+  private $paymentDataType =>
+  string(8) "3DSecure"
+  private $onlinePaymentCryptogram =>
+  string(28) "AOm+7lPDSbobAGVT7hmNAoABFA=="
+  private $eciIndicator =>
+  NULL
+}
+```
+
 
 **Install:**
 
