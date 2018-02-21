@@ -8,4 +8,4 @@ TBA
 
 Usage:
 
-TBA
+See /examples/decode_token.php
