@@ -1,5 +1,5 @@
 {
-    "name": "ApplePay Token Decoder",
+    "name": "payu/apple-pay",
     "description": "ApplePay Token Decoder",
     "type": "library",
     "license": "MIT",
