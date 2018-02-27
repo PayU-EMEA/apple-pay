@@ -39,6 +39,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $this->openSslServiceMock->method('verifySignature')->willReturn(true);
 
         $response = $this->eccSignatureVerifier->verify([
+            'signature' => 'ZHVtbXlkYXRh',
             'header' => [
                 'ephemeralPublicKey' => base64_encode('dummy_value'),
                 'transactionId' => bin2hex('dummy_value')
@@ -55,6 +56,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidDigest() {
         $this->eccSignatureVerifier->verify([
+            'signature' => 'ZHVtbXlkYXRh',
             'header' => [
                 'ephemeralPublicKey' => base64_encode('invalid_dummy_value'), // change ephemeralPublicKey so it returns a different message digest
                 'transactionId' => bin2hex('dummy_value')
@@ -73,6 +75,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $this->openSslServiceMock->method('verifySignature')->willThrowException(new SignatureException('exception message'));
 
         $this->eccSignatureVerifier->verify([
+            'signature' => 'ZHVtbXlkYXRh',
             'header' => [
                 'ephemeralPublicKey' => base64_encode('dummy_value'), // change ephemeralPublicKey so it returns a different message digest
                 'transactionId' => bin2hex('dummy_value')
