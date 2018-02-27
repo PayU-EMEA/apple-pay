@@ -58,7 +58,9 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->PKCS7SignatureValidatorMock->method('validate')->willThrowException(new Exception('exception_message'));
 
-        $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [], 'dummy path', 99999);
+        $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [
+            'version' => 1
+        ], 'dummy path', 99999);
     }
 
 
@@ -70,7 +72,9 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->applePayEccDecoderMock->method('decode')->willThrowException(new Exception('exception_message'));
 
-        $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [], 'dummy path', 99999);
+        $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [
+            'version' => 1
+        ], 'dummy path', 99999);
     }
 
     public function testSuccess()
@@ -82,7 +86,10 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
         $actualResult = $this->applePayDecodingService->decode(
             'privateKey',
             'merchantAppleId',
-            ['dummyPaymentData' => [] ],
+            [
+                'version' => 1,
+                'dummyPaymentData' => []
+            ],
             'dummy path',
             99999
         );
