@@ -3,7 +3,7 @@
     "description": "ApplePay Token Decoder",
     "type": "library",
     "license": "Apache2",
-    "keywords": [],
+    "keywords": ["php", "apple-pay", "openssl", "decryption"],
     "homepage": "https://github.com/PayU/apple-pay",
     "authors": [
         {
