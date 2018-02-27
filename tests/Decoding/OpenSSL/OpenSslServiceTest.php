@@ -83,7 +83,7 @@ FrwWqY/zbzMNYgaOm+DnUMjF8v8v1nMtag==
         $leafCertificate = new TemporaryFile();
         $leafCertificate->write($this->leafCertificate);
 
-        $response = $this->openSslService->validateCertificateChain(__DIR__ . '../../examples/AppleRootCA-G3.pem', $intermediateCertificate->getPath(), $leafCertificate->getPath());
+        $response = $this->openSslService->validateCertificateChain(__DIR__ . '/../../../examples/AppleRootCA-G3.pem', $intermediateCertificate->getPath(), $leafCertificate->getPath());
 
         $this->assertTrue($response);
     }
@@ -99,7 +99,7 @@ FrwWqY/zbzMNYgaOm+DnUMjF8v8v1nMtag==
         $leafCertificate = new TemporaryFile();
         $leafCertificate->write('invalid certificate');
 
-        $this->openSslService->validateCertificateChain(__DIR__ . '../../examples/AppleRootCA-G3.pem', $intermediateCertificate->getPath(), $leafCertificate->getPath());
+        $this->openSslService->validateCertificateChain(__DIR__ . '/../../../examples/AppleRootCA-G3.pem', $intermediateCertificate->getPath(), $leafCertificate->getPath());
     }
 
     public function testVerifySignatureSuccess()
