@@ -2,13 +2,14 @@
     "name": "payu/apple-pay",
     "description": "ApplePay Token Decoder",
     "type": "library",
-    "license": "MIT",
+    "license": "Apache2",
     "keywords": [],
     "homepage": "https://github.com/PayU/apple-pay",
     "authors": [
         {
             "name": "PayU Romania",
-            "homepage": "https://github.com/PayU"
+            "homepage": "https://www.payu.ro/",
+            "email": "support@payu.ro"
         }
     ],
     "autoload": {
