@@ -65,7 +65,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \PayU\ApplePay\Decoding\SignatureVerifier\Exception\
+     * @expectedException \PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException
      * @expectedExceptionMessage exception message
      */
     public function testCannotVerifySignature() {
