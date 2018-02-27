@@ -2,7 +2,7 @@
 
 namespace PayU\ApplePay\Decoding;
 
-use DI\ContainerBuilder;
+use phpseclib\File\ASN1;
 
 class Asn1WrapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,8 @@ class Asn1WrapperTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $container = ContainerBuilder::buildDevContainer();
-        $this->asn1Wrapper =  $container->get(Asn1Wrapper::class);
+        $asn1 = new ASN1();
+        $this->asn1Wrapper =  new Asn1Wrapper($asn1);
         $this->asn1Wrapper->loadFromString(base64_decode($this->certificateToTest));
     }
 
