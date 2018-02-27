@@ -30,7 +30,7 @@ class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
 
 **Install:**
 
-Run `composer require payu/apple-pay` (not final)
+Run `composer require payu/apple-pay`
 
 **Usage:**
 
