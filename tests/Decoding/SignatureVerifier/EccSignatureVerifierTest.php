@@ -50,7 +50,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \PayU\Decoding\SignatureVerifier\Exception\SignatureException
+     * @expectedException \PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException
      * @expectedExceptionMessage Invalid digest
      */
     public function testInvalidDigest() {
@@ -65,7 +65,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException \PayU\Decoding\SignatureVerifier\Exception\SignatureException
+     * @expectedException \PayU\ApplePay\Decoding\SignatureVerifier\Exception\
      * @expectedExceptionMessage exception message
      */
     public function testCannotVerifySignature() {
