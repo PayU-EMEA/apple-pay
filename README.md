@@ -1,3 +1,6 @@
+[![Travis CI](https://travis-ci.org/PayU/apple-pay.svg)](https://travis-ci.org/PayU/apple-pay) [![Latest Stable Version](https://poser.pugx.org/payu/apple-pay/v/stable.svg)](https://packagist.org/packages/payu/apple-pay) [![Total Downloads](https://poser.pugx.org/payu/apple-pay/downloads.svg)](https://packagist.org/packages/payu/apple-pay) [![License](https://poser.pugx.org/payu/apple-pay/license.svg)](https://packagist.org/packages/payu/apple-pay)
+
+
 **Apple Pay Token Decoder**
 
 This library is used to decode tokens for Apple Pay.
