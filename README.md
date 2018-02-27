@@ -9,7 +9,7 @@ class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
   private $version =>
   int(1)
   private $applicationPrimaryAccountNumber =>
-  string(16) "5204242750270010"
+  string(16) "20427527000"
   private $applicationExpirationDate =>
   string(6) "190731"
   private $currencyCode =>
@@ -17,11 +17,11 @@ class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
   private $transactionAmount =>
   int(100000)
   private $deviceManufacturerIdentifier =>
-  string(12) "050110030273"
+  string(12) "050103073"
   private $paymentDataType =>
   string(8) "3DSecure"
   private $onlinePaymentCryptogram =>
-  string(28) "AOm+7lPDSbobAGVT7hmNAoABFA=="
+  string(28) "Am+7lPDbobAGVT7hNAoABA=="
   private $eciIndicator =>
   NULL
 }
