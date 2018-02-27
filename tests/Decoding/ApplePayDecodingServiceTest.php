@@ -5,6 +5,7 @@ namespace PayU\ApplePay\Decoding;
 use Exception;
 use PayU\ApplePay\Decoding\Decoder\ApplePayDecoderFactory;
 use PayU\ApplePay\Decoding\Decoder\ApplePayEccDecoder;
+use PayU\ApplePay\ApplePayValidator;
 use PHPUnit_Framework_MockObject_MockObject;
 
 class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
@@ -17,6 +18,9 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
 
     /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayEccDecoder */
     private $applePayEccDecoderMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayValidator */
+    private $applePayValidatorMock;
 
     /** @var ApplePayDecodingService */
     private $applePayDecodingService;
@@ -37,7 +41,12 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->applePayDecodingService = new ApplePayDecodingService($this->applePayDecoderFactoryMock, $this->PKCS7SignatureValidatorMock);
+        $this->applePayValidatorMock = $this->getMockBuilder(ApplePayValidator::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->applePayValidatorMock->method('validatePaymentDataStructure')->willReturn(true);
+
+        $this->applePayDecodingService = new ApplePayDecodingService($this->applePayDecoderFactoryMock, $this->PKCS7SignatureValidatorMock, $this->applePayValidatorMock);
 
     }
 
