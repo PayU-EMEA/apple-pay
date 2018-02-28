@@ -23,9 +23,7 @@ $rootCertificatePath = __DIR__ . '/AppleRootCA-G3.pem';
 
 $applePayDecodingServiceFactory = new ApplePayDecodingServiceFactory();
 $applePayDecodingService = $applePayDecodingServiceFactory->make();
-
 $applePayValidator = new ApplePayValidator();
-
 
 $paymentData = json_decode($paymentData, true);
 
