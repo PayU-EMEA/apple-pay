@@ -27,9 +27,8 @@ class ApplePayDecodingServiceFactory
         $openSslService = new OpenSslService();
         $pkcs7SignatureValidatorSettings = new PKCS7SignatureValidatorSettings();
         $pkcs7SignatureValidator = new PKCS7SignatureValidator($signatureVerifierFactory, $asn1Wrapper, $temporaryFileService, $openSslService, $pkcs7SignatureValidatorSettings);
-        $applePayValidator = new ApplePayValidator();
 
-        return new ApplePayDecodingService($decoderFactory, $pkcs7SignatureValidator, $applePayValidator);
+        return new ApplePayDecodingService($decoderFactory, $pkcs7SignatureValidator);
     }
 
 }

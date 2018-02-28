@@ -41,12 +41,7 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->applePayValidatorMock = $this->getMockBuilder(ApplePayValidator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->applePayValidatorMock->method('validatePaymentDataStructure')->willReturn(true);
-
-        $this->applePayDecodingService = new ApplePayDecodingService($this->applePayDecoderFactoryMock, $this->PKCS7SignatureValidatorMock, $this->applePayValidatorMock);
+        $this->applePayDecodingService = new ApplePayDecodingService($this->applePayDecoderFactoryMock, $this->PKCS7SignatureValidatorMock);
 
     }
 
