@@ -43,3 +43,5 @@ For more information about how Apple Pay tokens decoding works go to:
 https://developer.apple.com/library/content/documentation/PassKit/Reference/PaymentTokenJSON/PaymentTokenJSON.html
 
 Only works on Linux hosts with openssl installed
+
+For open pull requests please make sure the Travis build does not fail!
