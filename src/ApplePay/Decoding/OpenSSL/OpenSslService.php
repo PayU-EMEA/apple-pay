@@ -100,11 +100,22 @@ class OpenSslService
      */
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {
         // note: use base64 encoding for binary safe output
-        $command = 'openssl pkeyutl -derive -inkey '.$privateKeyFilePath.' -peerkey '.$publicKeyFilePath . ' | base64 | tr -d \\\\n';
+        $command = 'openssl pkeyutl -derive -inkey '.escapeshellarg($privateKeyFilePath).' -peerkey '.escapeshellarg($publicKeyFilePath);
 
-        $execStatus = null;
-        $execOutput = null;
-        exec($command, $execOutput, $execStatus);
+        $descriptorspec = [
+            1 => ["pipe", "w"],
+        ];
+
+        $process = proc_open($command, $descriptorspec, $pipes);
+
+        if (!is_resource($process)) {
+            throw new \RuntimeException("Unable to invoke openssl");
+        }
+
+        $execOutput = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+
+        $execStatus = proc_close($process);
 
         if ($execStatus !== 0) {
             throw new \RuntimeException("Can't derive secret");
@@ -114,7 +125,7 @@ class OpenSslService
             throw new \RuntimeException("Unexpected empty result");
         }
 
-        return base64_decode($execOutput[0]);
+        return $execOutput;
     }
 
 }
