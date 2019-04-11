@@ -99,7 +99,6 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {
-        // note: use base64 encoding for binary safe output
         $command = 'openssl pkeyutl -derive -inkey '.escapeshellarg($privateKeyFilePath).' -peerkey '.escapeshellarg($publicKeyFilePath);
 
         $descriptorspec = [
