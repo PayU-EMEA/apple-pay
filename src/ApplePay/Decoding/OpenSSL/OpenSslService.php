@@ -6,12 +6,6 @@ use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
 
 class OpenSslService
 {
-
-    public function __construct()
-    {
-
-    }
-
     /**
      * @param string $caCertificatePath
      * @param string $intermediateCertificatePath
@@ -20,14 +14,12 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function validateCertificateChain($caCertificatePath, $intermediateCertificatePath, $leafCertificatePath) {
-        $verifyCertificateCommand = 'openssl verify -CAfile ' . $caCertificatePath . ' -untrusted ' . $intermediateCertificatePath . ' ' . $leafCertificatePath;
+        $verifyCertificateCommand = 'openssl verify -CAfile ' . escapeshellarg($caCertificatePath) . ' -untrusted ' . escapeshellarg($intermediateCertificatePath) . ' ' . escapeshellarg($leafCertificatePath);
 
-        $verifyStatus = null;
-        $verifyOutput = null;
-        exec($verifyCertificateCommand, $verifyOutput, $verifyStatus);
+        list($verifyStatus) = $this->runCommand($verifyCertificateCommand);
 
         if ($verifyStatus !== 0) {
-            throw new \RuntimeException(implode(' *** ', $verifyOutput));
+            throw new \RuntimeException("Can't validate certificate chain");
         }
 
         return true;
@@ -60,21 +52,15 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function getCertificatesFromPkcs7($certificatePath) {
-        $getCertificatesCommand = 'openssl pkcs7 -inform DER -in ' . $certificatePath . ' -print_certs';
+        $getCertificatesCommand = 'openssl pkcs7 -inform DER -in ' . escapeshellarg($certificatePath) . ' -print_certs';
 
-        $commandStatus = null;
-        $commandOutput = null;
-        exec($getCertificatesCommand, $commandOutput, $commandStatus);
+        list($commandStatus, $commandOutput) = $this->runCommand($getCertificatesCommand);
 
         if ($commandStatus !== 0) {
-            if(empty($commandOutput)) {
-                throw new \RuntimeException('Openssl command failed. Is OpenSsl installed?');
-            }
-
-            throw new \RuntimeException(implode(' *** ', $commandOutput));
+            throw new \RuntimeException("Cant't get certificates");
         }
 
-        return trim(implode(PHP_EOL, $commandOutput));
+        return rtrim($commandOutput);
     }
 
     /**
@@ -101,8 +87,24 @@ class OpenSslService
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {
         $command = 'openssl pkeyutl -derive -inkey '.escapeshellarg($privateKeyFilePath).' -peerkey '.escapeshellarg($publicKeyFilePath);
 
+        list($execStatus, $execOutput) = $this->runCommand($command);
+
+        if ($execStatus !== 0) {
+            throw new \RuntimeException("Can't derive secret");
+        }
+
+        if (empty($execOutput)) {
+            throw new \RuntimeException("Unexpected empty result");
+        }
+
+        return $execOutput;
+    }
+
+    private function runCommand($command)
+    {
         $descriptorspec = [
             1 => ["pipe", "w"],
+            2 => ["file", "/dev/null", "a"]
         ];
 
         $process = proc_open($command, $descriptorspec, $pipes);
@@ -116,15 +118,6 @@ class OpenSslService
 
         $execStatus = proc_close($process);
 
-        if ($execStatus !== 0) {
-            throw new \RuntimeException("Can't derive secret");
-        }
-
-        if (empty($execOutput)) {
-            throw new \RuntimeException("Unexpected empty result");
-        }
-
-        return $execOutput;
+        return [$execStatus, $execOutput];
     }
-
 }
