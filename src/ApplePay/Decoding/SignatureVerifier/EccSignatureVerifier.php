@@ -34,10 +34,11 @@ class EccSignatureVerifier implements SignatureVerifierInterface
     public function verify(array $paymentData)
     {
         $signedData = base64_decode($paymentData['header']['ephemeralPublicKey']) . base64_decode($paymentData['data']) . hex2bin($paymentData['header']['transactionId']);
+        $signedHash = hash('sha256', $signedData, true);
 
         $this->asn1Wrapper->loadFromString(base64_decode($paymentData['signature']));
 
-        if (hash('sha256', $signedData, true) !== $this->asn1Wrapper->getDigestMessage()) {
+        if (!hash_equals($signedHash, $this->asn1Wrapper->getDigestMessage())) {
             throw new SignatureException('Invalid digest');
         }
 
