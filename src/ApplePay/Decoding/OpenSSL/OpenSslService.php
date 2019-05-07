@@ -3,6 +3,7 @@
 namespace PayU\ApplePay\Decoding\OpenSSL;
 
 use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
+use Symfony\Component\Process\Process;
 
 class OpenSslService
 {
@@ -16,10 +17,10 @@ class OpenSslService
     public function validateCertificateChain($caCertificatePath, $intermediateCertificatePath, $leafCertificatePath) {
         $verifyCertificateCommand = 'openssl verify -CAfile ' . escapeshellarg($caCertificatePath) . ' -untrusted ' . escapeshellarg($intermediateCertificatePath) . ' ' . escapeshellarg($leafCertificatePath);
 
-        list($verifyStatus) = $this->runCommand($verifyCertificateCommand);
-
-        if ($verifyStatus !== 0) {
-            throw new \RuntimeException("Can't validate certificate chain");
+        try {
+            $this->runCommand($verifyCertificateCommand);
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Can't validate certificate chain", 0, $e);
         }
 
         return true;
@@ -54,10 +55,10 @@ class OpenSslService
     public function getCertificatesFromPkcs7($certificatePath) {
         $getCertificatesCommand = 'openssl pkcs7 -inform DER -in ' . escapeshellarg($certificatePath) . ' -print_certs';
 
-        list($commandStatus, $commandOutput) = $this->runCommand($getCertificatesCommand);
-
-        if ($commandStatus !== 0) {
-            throw new \RuntimeException("Cant't get certificates");
+        try {
+            $commandOutput = $this->runCommand($getCertificatesCommand);
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Cant't get certificates", 0, $e);
         }
 
         return rtrim($commandOutput);
@@ -87,10 +88,10 @@ class OpenSslService
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {
         $command = 'openssl pkeyutl -derive -inkey '.escapeshellarg($privateKeyFilePath).' -peerkey '.escapeshellarg($publicKeyFilePath);
 
-        list($execStatus, $execOutput) = $this->runCommand($command);
-
-        if ($execStatus !== 0) {
-            throw new \RuntimeException("Can't derive secret");
+        try {
+            $execOutput = $this->runCommand($command);
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Can't derive secret", 0, $e);
         }
 
         if (empty($execOutput)) {
@@ -100,24 +101,19 @@ class OpenSslService
         return $execOutput;
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     private function runCommand($command)
     {
-        $descriptorspec = [
-            1 => ["pipe", "w"],
-            2 => ["file", "/dev/null", "a"]
-        ];
+        $process = new Process($command);
+        $process->run();
 
-        $process = proc_open($command, $descriptorspec, $pipes);
-
-        if (!is_resource($process)) {
-            throw new \RuntimeException("Unable to invoke openssl");
+        if ($process->isSuccessful()) {
+            return $process->getOutput();
         }
 
-        $execOutput = stream_get_contents($pipes[1]);
-        fclose($pipes[1]);
-
-        $execStatus = proc_close($process);
-
-        return [$execStatus, $execOutput];
+        throw new \Exception("Failed running openssl: {$process->getErrorOutput()}");
     }
 }
