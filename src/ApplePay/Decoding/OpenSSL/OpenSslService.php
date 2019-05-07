@@ -3,6 +3,7 @@
 namespace PayU\ApplePay\Decoding\OpenSSL;
 
 use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class OpenSslService
@@ -19,7 +20,7 @@ class OpenSslService
 
         try {
             $this->runCommand($verifyCertificateCommand);
-        } catch (\Exception $e) {
+        } catch (ProcessFailedException $e) {
             throw new \RuntimeException("Can't validate certificate chain", 0, $e);
         }
 
@@ -57,7 +58,7 @@ class OpenSslService
 
         try {
             $commandOutput = $this->runCommand($getCertificatesCommand);
-        } catch (\Exception $e) {
+        } catch (ProcessFailedException $e) {
             throw new \RuntimeException("Cant't get certificates", 0, $e);
         }
 
@@ -90,7 +91,7 @@ class OpenSslService
 
         try {
             $execOutput = $this->runCommand($command);
-        } catch (\Exception $e) {
+        } catch (ProcessFailedException $e) {
             throw new \RuntimeException("Can't derive secret", 0, $e);
         }
 
@@ -102,18 +103,15 @@ class OpenSslService
     }
 
     /**
+     * @param string|array $command
      * @return string
-     * @throws \Exception
+     * @throws ProcessFailedException
      */
     private function runCommand($command)
     {
         $process = new Process($command);
-        $process->run();
+        $process->mustRun();
 
-        if ($process->isSuccessful()) {
-            return $process->getOutput();
-        }
-
-        throw new \Exception("Failed running openssl: {$process->getErrorOutput()}");
+        return $process->getOutput();
     }
 }
