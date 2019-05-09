@@ -59,7 +59,7 @@ class OpenSslService
         try {
             $commandOutput = $this->runCommand($getCertificatesCommand);
         } catch (ProcessFailedException $e) {
-            throw new \RuntimeException("Cant't get certificates", 0, $e);
+            throw new \RuntimeException("Can't get certificates", 0, $e);
         }
 
         return rtrim($commandOutput);
@@ -103,7 +103,7 @@ class OpenSslService
     }
 
     /**
-     * @param string|array $command
+     * @param string $command
      * @return string
      * @throws ProcessFailedException
      */
