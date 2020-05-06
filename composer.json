@@ -1,5 +1,5 @@
 {
-    "name": "payu/apple-pay",
+    "name": "crestoff/apple-pay",
     "description": "ApplePay Token Decoder",
     "type": "library",
     "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "PayU\\":  "src/"
+            "Crestoff\\":  "src/"
         }
     },
     "require": {
