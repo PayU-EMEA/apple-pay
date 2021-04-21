@@ -4,12 +4,14 @@ namespace PayU\ApplePay;
 
 use PayU\ApplePay\Exception\InvalidFormatException;
 
-class ApplePayValidatorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ApplePayValidatorTest extends TestCase
 {
     /** @var ApplePayValidator */
     private $applePayValidator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->applePayValidator = new ApplePayValidator();
     }
