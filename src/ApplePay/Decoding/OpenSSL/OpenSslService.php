@@ -16,7 +16,7 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function validateCertificateChain($caCertificatePath, $intermediateCertificatePath, $leafCertificatePath) {
-        $verifyCertificateCommand = 'openssl verify -CAfile ' . escapeshellarg($caCertificatePath) . ' -untrusted ' . escapeshellarg($intermediateCertificatePath) . ' ' . escapeshellarg($leafCertificatePath);
+        $verifyCertificateCommand = ['openssl', 'verify', '-CAfile', $caCertificatePath, '-untrusted', $intermediateCertificatePath, $leafCertificatePath];
 
         try {
             $this->runCommand($verifyCertificateCommand);
@@ -54,7 +54,7 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function getCertificatesFromPkcs7($certificatePath) {
-        $getCertificatesCommand = 'openssl pkcs7 -inform DER -in ' . escapeshellarg($certificatePath) . ' -print_certs';
+        $getCertificatesCommand = ['openssl', 'pkcs7', '-inform', 'DER', '-in', $certificatePath, '-print_certs'];
 
         try {
             $commandOutput = $this->runCommand($getCertificatesCommand);
@@ -87,7 +87,7 @@ class OpenSslService
      * @throws \RuntimeException
      */
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {
-        $command = 'openssl pkeyutl -derive -inkey '.escapeshellarg($privateKeyFilePath).' -peerkey '.escapeshellarg($publicKeyFilePath);
+        $command = ['openssl', 'pkeyutl', '-derive', '-inkey', $privateKeyFilePath, '-peerkey', $publicKeyFilePath];
 
         try {
             $execOutput = $this->runCommand($command);
@@ -119,11 +119,11 @@ class OpenSslService
     }
 
     /**
-     * @param string $command
+     * @param array $command
      * @return string
      * @throws ProcessFailedException
      */
-    private function runCommand($command)
+    private function runCommand(array $command)
     {
         $process = new Process($command);
         $process->mustRun();
