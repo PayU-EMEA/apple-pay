@@ -7,7 +7,9 @@ use PayU\ApplePay\Decoding\SignatureVerifier\SignatureVerifierFactory;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
 
-class PKCS7SignatureValidatorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PKCS7SignatureValidatorTest extends TestCase
 {
     /** @var SignatureVerifierFactory */
     private $signatureVerifierFactoryMock;
@@ -27,7 +29,7 @@ class PKCS7SignatureValidatorTest extends \PHPUnit_Framework_TestCase
     /** @var PKCS7SignatureValidator */
     private $pkcs7SignatureValidator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->signatureVerifierFactoryMock = $this->getMockBuilder(SignatureVerifierFactory::class)
             ->disableOriginalConstructor()

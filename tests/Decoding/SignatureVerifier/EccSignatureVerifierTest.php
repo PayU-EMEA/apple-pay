@@ -7,7 +7,9 @@ use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
 use PayU\ApplePay\Decoding\SignatureVerifier\Exception\SignatureException;
 use PHPUnit_Framework_MockObject_MockObject;
 
-class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EccSignatureVerifierTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject|Asn1Wrapper */
     private $asn1WrapperMock;
@@ -18,7 +20,7 @@ class EccSignatureVerifierTest extends \PHPUnit_Framework_TestCase
     /** @var EccSignatureVerifier */
     private $eccSignatureVerifier;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->asn1WrapperMock = $this->getMockBuilder(Asn1Wrapper::class)
             ->disableOriginalConstructor()
