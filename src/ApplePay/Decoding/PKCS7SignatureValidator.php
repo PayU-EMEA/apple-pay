@@ -51,6 +51,12 @@ class PKCS7SignatureValidator
 
         $certificates = $this->extractCertificates($signature);
 
+        if (count($certificates) == 6) {
+            $certificatesChanged[] = $certificates[0] . ' ' . $certificates [1] . "\n\n" . $certificates[2];
+            $certificatesChanged[] = $certificates[3] . ' ' . $certificates [4] . "\n\n" . $certificates[5];
+            $certificates = $certificatesChanged;
+        }
+        
         // 1.a. Ensure that the certificates contain the correct custom OIDs: 1.2.840.113635.100.6.29 for the leaf certificate and 1.2.840.113635.100.6.2.14 for the intermediate CA. The value for these marker OIDs doesn’t matter, only their presence.
         $this->checkIfCertificateContainOID($certificates[0], $this->pkcs7SignatureValidatorSettings->getLeafCertificateOid());
         $this->checkIfCertificateContainOID($certificates[1], $this->pkcs7SignatureValidatorSettings->getIntermediateCertificateOid());
