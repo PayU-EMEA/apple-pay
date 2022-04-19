@@ -7,7 +7,9 @@ use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
 use PHPUnit_Framework_MockObject_MockObject;
 
-class EccTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EccTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject|TemporaryFileService */
     private $temporaryFileServiceMock;
@@ -24,7 +26,7 @@ class EccTest extends \PHPUnit_Framework_TestCase
     private $validEncryptedData = 'fkKI2Qyp9UpeiYDBnv5h4XYAKTVvpcXszwtU9Gojv8UThuDgCkQnWW/x15ce71IqR3CmtCttjECagbl270ND0FqALusWNYBobmPj8c9z/jZhfFw2frxZXVirKpzMX6qEEzFf0JDhMo9CT9ukLGJvg/8c0j5S9xSLMjgiszRVht0kxKGh6QblE58rSXagcdihtbJgPORTRJ13kNIMqqGOpGhpUFgVF3h4LAwoYozhxK4K4nunNjPVP9g0BePBgGiBq1Dh4yriOxbQQDtFy6/CQ9zZSZbMtuyZK7uFZ+FPp8K48b8xKaq+cQR5YJxC2lxKgI+W5GHIL9foPKPGBaZqOnZ14VYBtTxmps0jdjE5HvWqecLgFKs6PHdTf/3uYY7i1zCM9tcTYgBFlXzdVI4iVYfmLJiPlM2n0xjs8PPldyU='; // base64 encoded
     private $decryptedData = '{"applicationPrimaryAccountNumber":"4818528840010767","applicationExpirationDate":"231231","currencyCode":"643","transactionAmount":1000,"deviceManufacturerIdentifier":"040010030273","paymentDataType":"3DSecure","paymentData":{"onlinePaymentCryptogram":"Ao/fzpIAFvp1eB9y8WVDMAACAAA=","eciIndicator":"7"}}';
 
-    public function setUp()
+    protected function setUp()
     {
         $this->temporaryFileServiceMock = $this->getMockBuilder(TemporaryFileService::class)
             ->disableOriginalConstructor()

@@ -5,7 +5,9 @@ namespace PayU\ApplePay\Decoding\OpenSSL;
 use PayU\ApplePay\ApplePaySettings;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 
-class OpenSslServiceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class OpenSslServiceTest extends TestCase
 {
     /** @var OpenSslService */
     private $openSslService;
@@ -119,7 +121,7 @@ FrwWqY/zbzMNYgaOm+DnUMjF8v8v1nMtag==
 -----END EC PRIVATE KEY-----
 ';
 
-    public function setUp()
+    protected function setUp()
     {
         $this->openSslService = new OpenSslService();
     }

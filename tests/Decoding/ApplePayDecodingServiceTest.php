@@ -8,7 +8,9 @@ use PayU\ApplePay\Decoding\Decoder\ApplePayEccDecoder;
 use PayU\ApplePay\ApplePayValidator;
 use PHPUnit_Framework_MockObject_MockObject;
 
-class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ApplePayDecodingServiceTest extends TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayDecoderFactory */
     private $applePayDecoderFactoryMock;
@@ -25,7 +27,7 @@ class ApplePayDecodingServiceTest extends \PHPUnit_Framework_TestCase
     /** @var ApplePayDecodingService */
     private $applePayDecodingService;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->applePayDecoderFactoryMock = $this->getMockBuilder(ApplePayDecoderFactory::class)
             ->disableOriginalConstructor()
