@@ -3,12 +3,9 @@ dist: xenial
 language: php
 
 php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
   - 7.4
+  - 8.0
+  - 8.1
   - nightly
 
 cache:
@@ -19,16 +16,13 @@ jobs:
   include:
     # Run against Ubuntu 18.04 to test with openssl v1.1.1.
     - dist: bionic
-      php: 7.1
-      env: OPENSSL_VERSION=1.1.1
-    - dist: bionic
-      php: 7.2
-      env: OPENSSL_VERSION=1.1.1
-    - dist: bionic
-      php: 7.3
-      env: OPENSSL_VERSION=1.1.1
-    - dist: bionic
       php: 7.4
+      env: OPENSSL_VERSION=1.1.1
+    - dist: bionic
+      php: 8.0
+      env: OPENSSL_VERSION=1.1.1
+    - dist: bionic
+      php: 8.1
       env: OPENSSL_VERSION=1.1.1
   fast_finish: true
   allow_failures:
@@ -39,3 +33,4 @@ install:
 
 script:
   - vendor/bin/phpunit
+  - vendor/bin/phpstan analyse src tests --level=5

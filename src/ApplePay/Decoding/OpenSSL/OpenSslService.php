@@ -81,9 +81,9 @@ class OpenSslService
     }
 
     /**
-     * @param $privateKeyFilePath
-     * @param $publicKeyFilePath
-     * @return null
+     * @param string $privateKeyFilePath
+     * @param string $publicKeyFilePath
+     * @return string
      * @throws \RuntimeException
      */
     public function deriveKey($privateKeyFilePath, $publicKeyFilePath) {

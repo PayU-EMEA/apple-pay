@@ -6,28 +6,25 @@ use Exception;
 use PayU\ApplePay\Decoding\Decoder\ApplePayDecoderFactory;
 use PayU\ApplePay\Decoding\Decoder\ApplePayEccDecoder;
 use PayU\ApplePay\ApplePayValidator;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockObject as MockObject;
 
 use PHPUnit\Framework\TestCase;
 
 class ApplePayDecodingServiceTest extends TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayDecoderFactory */
+    /** @var MockObject|ApplePayDecoderFactory */
     private $applePayDecoderFactoryMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|PKCS7SignatureValidator */
+    /** @var MockObject|PKCS7SignatureValidator */
     private $PKCS7SignatureValidatorMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayEccDecoder */
+    /** @var MockObject|ApplePayEccDecoder */
     private $applePayEccDecoderMock;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject|ApplePayValidator */
-    private $applePayValidatorMock;
 
     /** @var ApplePayDecodingService */
     private $applePayDecodingService;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->applePayDecoderFactoryMock = $this->getMockBuilder(ApplePayDecoderFactory::class)
             ->disableOriginalConstructor()
@@ -47,12 +44,11 @@ class ApplePayDecodingServiceTest extends TestCase
 
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage exception_message
-     */
     public function testExceptionIsThrownIfTokenIsNotValid()
     {
+        $this->expectExceptionMessage("exception_message");
+        $this->expectException(Exception::class);
+
         $this->PKCS7SignatureValidatorMock->method('validate')->willThrowException(new Exception('exception_message'));
 
         $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [
@@ -60,13 +56,11 @@ class ApplePayDecodingServiceTest extends TestCase
         ], 'dummy path', 99999);
     }
 
-
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage exception_message
-     */
     public function testExceptionIsThrownIfTokenCannotBeDecoded()
     {
+        $this->expectExceptionMessage("exception_message");
+        $this->expectException(Exception::class);
+
         $this->applePayEccDecoderMock->method('decode')->willThrowException(new Exception('exception_message'));
 
         $this->applePayDecodingService->decode('privateKey', 'merchantAppleId', [
@@ -84,7 +78,7 @@ class ApplePayDecodingServiceTest extends TestCase
             'privateKey',
             'merchantAppleId',
             [
-                'version' => 1,
+                'version'          => 1,
                 'dummyPaymentData' => []
             ],
             'dummy path',
@@ -93,5 +87,4 @@ class ApplePayDecodingServiceTest extends TestCase
 
         $this->assertEquals($expectedPaymentData, $actualResult);
     }
-
 }

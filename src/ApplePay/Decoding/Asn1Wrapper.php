@@ -6,10 +6,10 @@ use phpseclib\File\ASN1;
 
 class Asn1Wrapper
 {
-    /** @var */
+    /** @var array */
     private $asn1;
 
-    /** @var */
+    /** @var ASN1 */
     private $asn1Parser;
 
     public function __construct(ASN1 $asn1)
