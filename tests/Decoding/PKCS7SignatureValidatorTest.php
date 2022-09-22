@@ -6,24 +6,19 @@ use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
 use PayU\ApplePay\Decoding\SignatureVerifier\SignatureVerifierFactory;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 class PKCS7SignatureValidatorTest extends TestCase
 {
-    /** @var SignatureVerifierFactory */
-    private $signatureVerifierFactoryMock;
-
-    /** @var Asn1Wrapper */
-    private $asn1WrapperMock;
-
-    /** @var TemporaryFileService */
+    /** @var MockObject&TemporaryFileService */
     private $temporaryFileServiceMock;
 
-    /** @var OpenSslService */
+    /** @var MockObject&OpenSslService */
     private $openSslServiceMock;
 
-    /** @var PKCS7SignatureValidatorSettings */
+    /** @var MockObject&PKCS7SignatureValidatorSettings */
     private $pkcs7SignatureValidatorSettingsMock;
 
     /** @var PKCS7SignatureValidator */
@@ -31,11 +26,11 @@ class PKCS7SignatureValidatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->signatureVerifierFactoryMock = $this->getMockBuilder(SignatureVerifierFactory::class)
+        $signatureVerifierFactoryMock = $this->getMockBuilder(SignatureVerifierFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->asn1WrapperMock = $this->getMockBuilder(Asn1Wrapper::class)
+        $asn1WrapperMock = $this->getMockBuilder(Asn1Wrapper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -52,8 +47,8 @@ class PKCS7SignatureValidatorTest extends TestCase
             ->getMock();
 
         $this->pkcs7SignatureValidator = new PKCS7SignatureValidator(
-            $this->signatureVerifierFactoryMock,
-            $this->asn1WrapperMock,
+            $signatureVerifierFactoryMock,
+            $asn1WrapperMock,
             $this->temporaryFileServiceMock,
             $this->openSslServiceMock,
             $this->pkcs7SignatureValidatorSettingsMock

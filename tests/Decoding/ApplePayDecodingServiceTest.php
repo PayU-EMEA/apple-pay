@@ -21,9 +21,6 @@ class ApplePayDecodingServiceTest extends TestCase
     /** @var MockObject|ApplePayEccDecoder */
     private $applePayEccDecoderMock;
 
-    /** @var MockObject|ApplePayValidator */
-    private $applePayValidatorMock;
-
     /** @var ApplePayDecodingService */
     private $applePayDecodingService;
 
