@@ -2,6 +2,7 @@
 
 namespace PayU\ApplePay\Decoding\OpenSSL;
 
+use Exception;
 use PayU\ApplePay\ApplePaySettings;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 
@@ -121,7 +122,7 @@ FrwWqY/zbzMNYgaOm+DnUMjF8v8v1nMtag==
 -----END EC PRIVATE KEY-----
 ';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->openSslService = new OpenSslService();
     }
@@ -139,11 +140,10 @@ FrwWqY/zbzMNYgaOm+DnUMjF8v8v1nMtag==
         $this->assertTrue($response);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testValidateCertificateChainFail()
     {
+        $this->expectException(Exception::class);
+
         $intermediateCertificate = new TemporaryFile();
         $intermediateCertificate->write($this->intermediateCertificate);
 
@@ -168,11 +168,10 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
         $this->assertTrue($response);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testVerifySignatureFail()
     {
+        $this->expectException(Exception::class);
+
         $signedAttributes = 'invalid_value';
         $signature = 'invalid_value';
 
@@ -197,11 +196,9 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
         $this->assertEquals($expectedResponse, $response);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetCertificatesFromPkcs7Fail()
     {
+        $this->expectException(Exception::class);
         $certificateFile = new TemporaryFile();
         $certificateFile->write('invalid signature');
 
@@ -215,11 +212,9 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
 
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetCertificateExtensionsFail()
     {
+        $this->expectException(Exception::class);
         $this->openSslService->getCertificateExtensions('invalid certificate');
     }
 
@@ -238,11 +233,9 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
         $this->assertEquals($expectedKey, $response);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testDeriveKeyFailIfPrivateKeyIsInvalid()
     {
+        $this->expectException(Exception::class);
         $privateKeyData = 'invalid key';
 
         $privateKeyFile = new TemporaryFile();
@@ -254,11 +247,9 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
         $this->openSslService->deriveKey($privateKeyFile->getPath(), $publicKeyFile->getPath());
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function testDeriveKeyFailIfPublicKeyIsInvalid()
     {
+        $this->expectException(Exception::class);
         $publicKey = 'invalid key';
 
         $privateKeyFile = new TemporaryFile();

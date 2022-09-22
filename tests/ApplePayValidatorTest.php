@@ -3,7 +3,6 @@
 namespace PayU\ApplePay;
 
 use PayU\ApplePay\Exception\InvalidFormatException;
-
 use PHPUnit\Framework\TestCase;
 
 class ApplePayValidatorTest extends TestCase
@@ -11,7 +10,7 @@ class ApplePayValidatorTest extends TestCase
     /** @var ApplePayValidator */
     private $applePayValidator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->applePayValidator = new ApplePayValidator();
     }
@@ -19,13 +18,13 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentDataStructureSuccess()
     {
         $paymentData = [
-            'version' => 'v1',
-            'data' => 'dummy data',
+            'version'   => 'v1',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'ephemeralPublicKey' => 'key',
-                'publicKeyHash' => 'dummy hash',
-                'transactionId' => 3
+                'publicKeyHash'      => 'dummy hash',
+                'transactionId'      => 3
             ]
         ];
 
@@ -34,16 +33,15 @@ class ApplePayValidatorTest extends TestCase
         $this->assertEquals(true, $isValid);
     }
 
-
     public function testValidatePaymentWhenVersionMissing()
     {
         $paymentData = [
-            'data' => 'dummy data',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'ephemeralPublicKey' => 'key',
-                'publicKeyHash' => 'dummy hash',
-                'transactionId' => 3
+                'publicKeyHash'      => 'dummy hash',
+                'transactionId'      => 3
             ]
         ];
 
@@ -56,12 +54,12 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentWhenDataMissing()
     {
         $paymentData = [
-            'version' => 'v1',
+            'version'   => 'v1',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'ephemeralPublicKey' => 'key',
-                'publicKeyHash' => 'dummy hash',
-                'transactionId' => 3
+                'publicKeyHash'      => 'dummy hash',
+                'transactionId'      => 3
             ]
         ];
 
@@ -75,11 +73,11 @@ class ApplePayValidatorTest extends TestCase
     {
         $paymentData = [
             'version' => 'v1',
-            'data' => 'dummy data',
-            'header' => [
+            'data'    => 'dummy data',
+            'header'  => [
                 'ephemeralPublicKey' => 'key',
-                'publicKeyHash' => 'dummy hash',
-                'transactionId' => 3
+                'publicKeyHash'      => 'dummy hash',
+                'transactionId'      => 3
             ]
         ];
 
@@ -92,10 +90,10 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentWhenPublicKeyMissing()
     {
         $paymentData = [
-            'version' => 'v1',
-            'data' => 'dummy data',
+            'version'   => 'v1',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'publicKeyHash' => 'dummy hash',
                 'transactionId' => 3
             ]
@@ -110,12 +108,12 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentWhenPublicKeyHashMissing()
     {
         $paymentData = [
-            'version' => 'v1',
-            'data' => 'dummy data',
+            'version'   => 'v1',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'ephemeralPublicKey' => 'key',
-                'transactionId' => 3
+                'transactionId'      => 3
             ]
         ];
 
@@ -128,12 +126,12 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentWhenTransactionIdMissing()
     {
         $paymentData = [
-            'version' => 'v1',
-            'data' => 'dummy data',
+            'version'   => 'v1',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
-            'header' => [
+            'header'    => [
                 'ephemeralPublicKey' => 'key',
-                'publicKeyHash' => 'dummy hash',
+                'publicKeyHash'      => 'dummy hash',
             ]
         ];
 
@@ -146,8 +144,8 @@ class ApplePayValidatorTest extends TestCase
     public function testValidatePaymentWhenHeaderMissing()
     {
         $paymentData = [
-            'version' => 'v1',
-            'data' => 'dummy data',
+            'version'   => 'v1',
+            'data'      => 'dummy data',
             'signature' => 'dummy signature',
         ];
 
@@ -156,6 +154,5 @@ class ApplePayValidatorTest extends TestCase
 
         $this->applePayValidator->validatePaymentDataStructure($paymentData);
     }
-
 
 }

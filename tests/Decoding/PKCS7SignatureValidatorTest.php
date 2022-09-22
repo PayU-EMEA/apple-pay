@@ -6,8 +6,8 @@ use PayU\ApplePay\Decoding\OpenSSL\OpenSslService;
 use PayU\ApplePay\Decoding\SignatureVerifier\SignatureVerifierFactory;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFile;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
-
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class PKCS7SignatureValidatorTest extends TestCase
 {
@@ -29,7 +29,7 @@ class PKCS7SignatureValidatorTest extends TestCase
     /** @var PKCS7SignatureValidator */
     private $pkcs7SignatureValidator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->signatureVerifierFactoryMock = $this->getMockBuilder(SignatureVerifierFactory::class)
             ->disableOriginalConstructor()
@@ -51,20 +51,20 @@ class PKCS7SignatureValidatorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-      $this->pkcs7SignatureValidator = new PKCS7SignatureValidator(
-          $this->signatureVerifierFactoryMock,
-          $this->asn1WrapperMock,
-          $this->temporaryFileServiceMock,
-          $this->openSslServiceMock,
-          $this->pkcs7SignatureValidatorSettingsMock
-      );
+        $this->pkcs7SignatureValidator = new PKCS7SignatureValidator(
+            $this->signatureVerifierFactoryMock,
+            $this->asn1WrapperMock,
+            $this->temporaryFileServiceMock,
+            $this->openSslServiceMock,
+            $this->pkcs7SignatureValidatorSettingsMock
+        );
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Signature is not a valid base64 value
-     */
-    public function testValidateThrowsExceptionIfSignatureIsNotBase64() {
+    public function testValidateThrowsExceptionIfSignatureIsNotBase64()
+    {
+        $this->expectExceptionMessage("Signature is not a valid base64 value");
+        $this->expectException(RuntimeException::class);
+
         $invalidSignature = '====';
 
         $this->pkcs7SignatureValidator->validate(
@@ -74,12 +74,11 @@ class PKCS7SignatureValidatorTest extends TestCase
         );
     }
 
+    public function testValidateThrowsExceptionIfOidIsMissing()
+    {
+        $this->expectExceptionMessage("Missing OID OID_VALUE from certificate");
+        $this->expectException(RuntimeException::class);
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Missing OID OID_VALUE from certificate
-     */
-    public function testValidateThrowsExceptionIfOidIsMissing() {
         $certificates = 'subject=/CN=ecc-smp-broker-sign_UC4-SANDBOX/OU=iOS Systems/O=Apple Inc./C=US
 issuer=/CN=Apple Application Integration CA - G3/OU=Apple Certification Authority/O=Apple Inc./C=US
 -----BEGIN CERTIFICATE-----
@@ -126,7 +125,6 @@ hkiG92NkBgIOBAIFADAKBggqhkjOPQQDAgNnADBkAjA6z3KDURaZsYb7NcNWymK/
 9Bft2Q91TaKOvvGcgV5Ct4n4mPebWZ+Y1UENj53pwv4CMDIt1UQhsKMFd2xd8zg7
 kGf9F3wsIW2WT8ZyaYISb1T4en0bmcubCYkhYQaZDwmSHQ==
 -----END CERTIFICATE-----';
-
 
         $this->pkcs7SignatureValidatorSettingsMock->method('getLeafCertificateOid')->willReturn('OID_VALUE');
         $this->temporaryFileServiceMock->method('createFile')->willReturn(new TemporaryFile());
