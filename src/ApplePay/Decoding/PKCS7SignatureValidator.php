@@ -129,7 +129,22 @@ class PKCS7SignatureValidator
 
         $certificates = $this->openSslService->getCertificatesFromPkcs7($pkcs7TemporaryFile->getPath());
 
-        return explode("\n\n", $certificates); // the response contains 2 certificates; separate them into an array
+        // The response contains 2 certificates. Let's extract them by their ends.
+        // It's good idea to ensure that certificates are at proper format. Some environments
+        // may ended up with additional "\n" characters.
+        //
+        $certificates = explode(
+            "-----END CERTIFICATE-----\n",
+            str_replace("\n\n", "\n", $certificates)
+        );
+
+        if (count($certificates) > 1) {
+            // Let's fix first certificate by adding extracted "end" signature.
+            //
+            $certificates[0] = $certificates[0] . '-----END CERTIFICATE-----';
+        }
+
+        return $certificates;
     }
 
 }
