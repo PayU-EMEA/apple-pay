@@ -2,23 +2,15 @@
 
 namespace PayU\ApplePay\Decoding;
 
-use phpseclib\File\ASN1;
+use phpseclib3\File\ASN1;
 
 class Asn1Wrapper
 {
     /** @var array */
     private $asn1;
 
-    /** @var ASN1 */
-    private $asn1Parser;
-
-    public function __construct(ASN1 $asn1)
-    {
-        $this->asn1Parser = $asn1;
-    }
-
     public function loadFromString($value) {
-        $this->asn1 = $this->asn1Parser->decodeBER($value);
+        $this->asn1 = ASN1::decodeBER($value);
     }
 
     public function getSignature() {
@@ -27,10 +19,7 @@ class Asn1Wrapper
 
     public function getSignedAttributes() {
         $signedAttributes = $this->asn1[0]['content'][1]['content'][0]['content'][4]['content'][0]['content'][3]; // ['content'];
-        $signedAttr = $this->asn1Parser->asn1map($signedAttributes, [
-            'type' => ASN1::TYPE_ANY,
-            'implicit' => true
-        ])->element;
+        $signedAttr = ASN1::asn1map($signedAttributes, ['type' => ASN1::TYPE_ANY, 'implicit' => true])->element;
         $signedAttr[0] = chr(0x31);
 
         return $signedAttr;
@@ -47,10 +36,7 @@ class Asn1Wrapper
                         ['content'][0] // cert_info tag
                         ['content'][6]; // key tag, all contents, including headers
 
-        $publicKey = $this->asn1Parser->asn1map($content, [
-            'type' => ASN1::TYPE_ANY,
-            'implicit' => true
-        ])->element;
+        $publicKey = ASN1::asn1map($content, ['type' => ASN1::TYPE_ANY, 'implicit' => true])->element;
 
         return trim($publicKey);
     }
@@ -60,11 +46,8 @@ class Asn1Wrapper
      */
     public function getSigningTime() {
         $timeAttribute = $this->asn1[0]['content'][1]['content'][0]['content'][4]['content'][0]['content'][3]['content'][1]['content'][1]['content'][0];
-        $signTime = $this->asn1Parser->asn1map($timeAttribute, [
-            'type' => ASN1::TYPE_UTC_TIME
-        ]);
 
-        return $signTime;
+        return ASN1::asn1map($timeAttribute, ['type' => ASN1::TYPE_UTC_TIME]);
     }
 
 }
