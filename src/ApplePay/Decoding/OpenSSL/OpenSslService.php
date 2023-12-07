@@ -21,7 +21,7 @@ class OpenSslService
         try {
             $this->runCommand($verifyCertificateCommand);
         } catch (ProcessFailedException $e) {
-            throw new \RuntimeException("Can't validate certificate chain", 0, $e);
+            throw new \RuntimeException("Can't validate certificate chain: $e", 0, $e);
         }
 
         return true;
@@ -59,7 +59,7 @@ class OpenSslService
         try {
             $commandOutput = $this->runCommand($getCertificatesCommand);
         } catch (ProcessFailedException $e) {
-            throw new \RuntimeException("Can't get certificates", 0, $e);
+            throw new \RuntimeException("Can't get certificates: $e", 0, $e);
         }
 
         return $this->normalisePrintCerts(rtrim($commandOutput));
@@ -92,7 +92,7 @@ class OpenSslService
         try {
             $execOutput = $this->runCommand($command);
         } catch (ProcessFailedException $e) {
-            throw new \RuntimeException("Can't derive secret", 0, $e);
+            throw new \RuntimeException("Can't derive secret: $e", 0, $e);
         }
 
         if (empty($execOutput)) {
