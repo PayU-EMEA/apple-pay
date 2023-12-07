@@ -1,0 +1,42 @@
+name: PHPStan tests
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  phpunit:
+    name: PHPStan tests
+
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system:
+          - ubuntu-latest
+        php-version:
+          - 7.4
+          - 8.0
+          - 8.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          args: --prefer-dist --ansi --no-interaction --no-progress --no-suggest
+
+      - name: PHPStan
+        uses: php-actions/phpstan@v3
+        with:
+          php_version: ${{ matrix.php-version }}
+          path: src tests
+          level: 5
