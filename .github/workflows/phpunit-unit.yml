@@ -39,6 +39,7 @@ jobs:
         env:
           OPENSSL_VERSION: 1.1.1
         with:
+          version: 9.6
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml
           php_version: ${{ matrix.php-version }}
