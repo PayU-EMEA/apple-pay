@@ -10,7 +10,6 @@ use PayU\ApplePay\Decoding\PKCS7SignatureValidator;
 use PayU\ApplePay\Decoding\PKCS7SignatureValidatorSettings;
 use PayU\ApplePay\Decoding\SignatureVerifier\SignatureVerifierFactory;
 use PayU\ApplePay\Decoding\TemporaryFile\TemporaryFileService;
-use phpseclib\File\ASN1;
 
 class ApplePayDecodingServiceFactory
 {
@@ -21,8 +20,7 @@ class ApplePayDecodingServiceFactory
     {
         $decoderFactory = new ApplePayDecoderFactory();
         $signatureVerifierFactory = new SignatureVerifierFactory();
-        $asn1 = new ASN1();
-        $asn1Wrapper = new Asn1Wrapper($asn1);
+        $asn1Wrapper = new Asn1Wrapper();
         $temporaryFileService = new TemporaryFileService();
         $openSslService = new OpenSslService();
         $pkcs7SignatureValidatorSettings = new PKCS7SignatureValidatorSettings();
