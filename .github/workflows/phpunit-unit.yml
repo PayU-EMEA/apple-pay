@@ -32,6 +32,7 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
+          php_version: ${{ matrix.php-version }}
           args: --prefer-dist --ansi --no-interaction --no-progress --no-suggest
 
       - name: PHPUnit Tests
