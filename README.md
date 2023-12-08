@@ -35,6 +35,17 @@ class PayU\ApplePay\Decoding\ApplePayPaymentData#19 (9) {
 
 Run `composer require payu/apple-pay`
 
+**Get AppleRootCA-G3.pem:**
+
+1. Download [AppleRootCA-G3.cer](https://www.apple.com/certificateauthority)
+2. Run command: `openssl x509 -inform der -in AppleRootCA-G3.cer -out AppleRootCA-G3.pem`
+
+**Get Private Key:**
+
+1. Export merchant certificate to a p12 cert
+2. Use openssl to get the private key: `openssl pkcs12 -in <your_cert>.p12 -out private_key.pem -nocerts -nodes`
+3. Copy content without `BEGIN` and `END` markers
+
 **Usage:**
 
 See https://github.com/PayU/apple-pay/blob/master/examples/decode_token.php

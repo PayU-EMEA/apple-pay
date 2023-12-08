@@ -77,6 +77,7 @@ class OpenSslService
             throw new \RuntimeException("Can't load x509 certificate");
         }
         $certificateData = openssl_x509_parse($certificateResource, false);
+
         return $certificateData['extensions'];
     }
 
