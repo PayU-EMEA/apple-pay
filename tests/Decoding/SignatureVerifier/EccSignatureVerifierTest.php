@@ -30,7 +30,6 @@ class EccSignatureVerifierTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->asn1WrapperMock->method('loadFromString')->willReturn(true);
         $this->asn1WrapperMock->method('getDigestMessage')->willReturn(hash('sha256', 'dummy_valuedummy_valuedummy_value', true));
         $this->asn1WrapperMock->method('getLeafCertificatePublicKey')->willReturn('dummyValue');
 
