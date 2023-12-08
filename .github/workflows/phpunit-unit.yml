@@ -36,8 +36,6 @@ jobs:
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
-        env:
-          OPENSSL_VERSION: 1.1.1
         with:
           version: 9.6
           bootstrap: vendor/autoload.php
