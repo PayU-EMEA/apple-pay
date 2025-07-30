@@ -12,13 +12,13 @@ use RuntimeException;
 
 class EccTest extends TestCase
 {
-    /** @var MockObject|TemporaryFileService */
+    /** @var MockObject&TemporaryFileService */
     private $temporaryFileServiceMock;
 
-    /** @var MockObject|OpenSslService */
+    /** @var MockObject&OpenSslService */
     private $openSslServiceMock;
 
-    /** @var MockObject|Ecc */
+    /** @var Ecc */
     private $ecc;
 
     private $validSymmetricKey = 'EjMmct+Bd2UW9JHRFqjpP0SeuQduS9gtUq98SKNWZl8='; // base64 encoded.
