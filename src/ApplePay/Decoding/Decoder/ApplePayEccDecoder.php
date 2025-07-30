@@ -66,6 +66,40 @@ class ApplePayEccDecoder implements ApplePayDecoderInterface
             throw new InvalidArgumentException('Invalid decoded text.');
         }
 
+        // Validate required fields exist
+        $requiredFields = [
+            'applicationPrimaryAccountNumber',
+            'applicationExpirationDate',
+            'currencyCode',
+            'transactionAmount',
+            'deviceManufacturerIdentifier',
+            'paymentDataType',
+            'paymentData'
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($decodedData[$field])) {
+                throw new InvalidArgumentException("Missing required field: {$field}");
+            }
+        }
+
+        if (!isset($decodedData['paymentData']['onlinePaymentCryptogram'])) {
+            throw new InvalidArgumentException('Missing required field: paymentData.onlinePaymentCryptogram');
+        }
+
+        // Extract optional fields safely
+        $merchantTokenIdentifier = isset($decodedData['merchantTokenIdentifier'])
+            ? $decodedData['merchantTokenIdentifier']
+            : null;
+
+        $merchantTokenMetadata = isset($decodedData['merchantTokenMetadata'])
+            ? $decodedData['merchantTokenMetadata']
+            : null;
+
+        $eciIndicator = isset($decodedData['paymentData']['eciIndicator'])
+            ? $decodedData['paymentData']['eciIndicator']
+            : null;
+
         return new ApplePayPaymentData(
             $decodedData['applicationPrimaryAccountNumber'],
             $decodedData['applicationExpirationDate'],
@@ -74,8 +108,10 @@ class ApplePayEccDecoder implements ApplePayDecoderInterface
             $decodedData['deviceManufacturerIdentifier'],
             $decodedData['paymentDataType'],
             $decodedData['paymentData']['onlinePaymentCryptogram'],
-            isset($decodedData['paymentData']['eciIndicator']) ? $decodedData['paymentData']['eciIndicator'] : null,
-            1
+            $eciIndicator,
+            1,
+            $merchantTokenIdentifier,
+            $merchantTokenMetadata
         );
     }
 }

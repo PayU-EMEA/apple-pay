@@ -12,13 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 class ApplePayDecodingServiceTest extends TestCase
 {
-    /** @var MockObject|ApplePayDecoderFactory */
+    /** @var MockObject&ApplePayDecoderFactory */
     private $applePayDecoderFactoryMock;
 
-    /** @var MockObject|PKCS7SignatureValidator */
+    /** @var MockObject&PKCS7SignatureValidator */
     private $PKCS7SignatureValidatorMock;
 
-    /** @var MockObject|ApplePayEccDecoder */
+    /** @var MockObject&ApplePayEccDecoder */
     private $applePayEccDecoderMock;
 
     /** @var ApplePayDecodingService */
