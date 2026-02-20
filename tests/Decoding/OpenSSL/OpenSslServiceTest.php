@@ -79,20 +79,27 @@ bLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlQ==
 
     public function testGetCertificatesFromPkcs7Success()
     {
-        $leafHeader = 'subject=C = RO, ST = BUH, L = Bucuresti, O = Internet Widgits Pty Ltd, CN = leaflet' .
-            PHP_EOL . 'issuer=C = RO, ST = BUH, O = PayU, CN = intermediate-cert' . PHP_EOL;
-        $leafCert = file_get_contents(__DIR__ . '/leaf.crt');
-        $intermediateHeader = 'subject=C = RO, ST = BUH, O = PayU, CN = intermediate-cert' . PHP_EOL .
-            'issuer=C = RO, ST = BUH, O = PayU ROOT, CN = root-cert' . PHP_EOL;
-        $intermediateCert = file_get_contents(__DIR__ . '/intermediate.crt');
-
-        $expectedResponse = $leafHeader . $leafCert . PHP_EOL . PHP_EOL . $intermediateHeader . $intermediateCert;
+        $leafCert = trim(file_get_contents(__DIR__ . '/leaf.crt'));
+        $intermediateCert = trim(file_get_contents(__DIR__ . '/intermediate.crt'));
 
         $pkcs7DerCert = realpath(__DIR__ . '/leaf.p7b');
 
         $response = $this->openSslService->getCertificatesFromPkcs7($pkcs7DerCert);
 
-        $this->assertEquals($expectedResponse, $response);
+        // Assert subject/issuer headers are present for both certificates.
+        // OpenSSL < 3.x formats as "C = RO", OpenSSL >= 3.x formats as "C=RO" — accept both.
+        $this->assertMatchesRegularExpression(
+            '/^subject=.*CN\s*=\s*leaflet\nissuer=.*CN\s*=\s*intermediate-cert\n/m',
+            $response
+        );
+        $this->assertMatchesRegularExpression(
+            '/^subject=.*CN\s*=\s*intermediate-cert\nissuer=.*CN\s*=\s*root-cert\n/m',
+            $response
+        );
+
+        // Assert both PEM certificate bodies are present verbatim.
+        $this->assertStringContainsString($leafCert, $response);
+        $this->assertStringContainsString($intermediateCert, $response);
     }
 
     public function testGetCertificatesFromPkcs7Fail()
